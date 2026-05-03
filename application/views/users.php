@@ -1,136 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Data Users</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
+<!-- Membungkus konten di dalam container agar ada jarak rapi di kiri-kanan -->
+    <div class="container mt-5">
+        <h2 class="mb-4">Daftar Users</h2>
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .btn {
-            padding: 5px 10px;
-            text-decoration: none;
-            background-color: #eee;
-            color: #333;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            font-size: 14px;
-        }
-
-        .btn-add {
-            background-color: #4CAF50;
-            color: white;
-            margin-bottom: 10px;
-            display: inline-block;
-            border: none;
-        }
-
-        .btn-edit {
-            background-color: #2196F3;
-            color: white;
-            border: none;
-        }
-
-        .btn-delete {
-            background-color: #f44336;
-            color: white;
-            border: none;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #f5c6cb;
-        }
-    </style>
-</head>
-<body>
-
-    <h2>Daftar Users</h2>
-
-    <div style="margin-bottom: 15px;">
-        Halo, <strong><?php echo $this->session->userdata('full_name'); ?></strong>
-        <a href="<?php echo site_url('auth/logout'); ?>" class="btn" style="background-color: #f44336; color: white;">Logout</a>
-    </div>
-
-    <!-- Flashdata Success -->
-    <?php if ($this->session->flashdata('success')): ?>
-        <div class="alert-success">
-            <?php echo $this->session->flashdata('success'); ?>
+        <div class="alert alert-secondary py-2 mb-4">
+            Halo, <strong><?php echo $this->session->userdata('full_name'); ?></strong>
         </div>
-    <?php endif; ?>
 
-    <!-- Flashdata Error -->
-    <?php if ($this->session->flashdata('error')): ?>
-        <div class="alert-error">
-            <?php echo $this->session->flashdata('error'); ?>
-        </div>
-    <?php endif; ?>
+        <!-- Flashdata Success -->
+        <?php if ($this->session->flashdata('success')): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?php echo $this->session->flashdata('success'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
 
-    <a href="<?php echo site_url('user/add'); ?>" class="btn btn-add">Tambah User</a>
+        <!-- Flashdata Error -->
+        <?php if ($this->session->flashdata('error')): ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?php echo $this->session->flashdata('error'); ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
 
-    <table>
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Username</th>
-                <th>Full Name</th>
-                <th>Created At</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($users)): ?>
-                <?php $no = 1; foreach ($users as $u): ?>
+        <a href="<?php echo site_url('user/add'); ?>" class="btn btn-success mb-3">Tambah User</a>
+
+        <!-- Membuat tabel menjadi responsif -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover align-middle">
+                <thead class="table-light">
                     <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><?php echo $u->username; ?></td>
-                        <td><?php echo $u->full_name; ?></td>
-                        <td><?php echo $u->created_at; ?></td>
-                        <td>
-                            <a href="<?php echo site_url('user/edit/' . $u->id); ?>" class="btn btn-edit">Edit</a>
-                            
-                            <?php if ($this->session->userdata('role') === 'administrator'): ?>
-                                <a href="<?php echo site_url('user/delete/' . $u->id); ?>" 
-                                   class="btn btn-delete" 
-                                   onclick="return confirm('Yakin hapus data ini?');">
-                                   Hapus
-                                </a>
-                            <?php endif; ?>
-                        </td>
+                        <th width="5%" class="text-center">No</th>
+                        <th>Username</th>
+                        <th>Full Name</th>
+                        <th>Created At</th>
+                        <th width="15%" class="text-center">Aksi</th>
                     </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5" style="text-align: center;">Tidak ada data.</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
-
-</body>
-</html>
+                </thead>
+                <tbody>
+                    <?php if (!empty($users)): ?>
+                        <?php $no = 1; foreach ($users as $u): ?>
+                            <tr>
+                                <td class="text-center"><?php echo $no++; ?></td>
+                                <td><?php echo $u->username; ?></td>
+                                <td><?php echo $u->full_name; ?></td>
+                                <td><?php echo $u->created_at; ?></td>
+                                <td class="text-center">
+                                    <a href="<?php echo site_url('user/edit/' . $u->id); ?>" class="btn btn-primary btn-sm">Edit</a>
+                                    
+                                    <?php if ($this->session->userdata('role') === 'administrator'): ?>
+                                        <a href="<?php echo site_url('user/delete/' . $u->id); ?>" 
+                                           class="btn btn-danger btn-sm" 
+                                           onclick="return confirm('Yakin hapus data ini?');">
+                                           Hapus
+                                        </a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">Tidak ada data.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
