@@ -15,24 +15,20 @@
                 <h5 class="mb-0">Upload Gambar</h5>
             </div>
             <div class="card-body">
-                <!-- Pesan Error -->
                 <?php if ($this->session->flashdata('error')): ?>
                     <div class="alert alert-danger">
                         <?= $this->session->flashdata('error'); ?>
                     </div>
                 <?php endif; ?>
-
-                <!-- Pesan Sukses & Preview -->
                 <?php if ($this->session->flashdata('success')): ?>
                     <div class="alert alert-success">
                         <?= $this->session->flashdata('success'); ?>
                     </div>
                     <div class="text-center mb-3">
-                        <img src="<?= base_url('uploads/' . $this->session->flashdata('file_name')); ?>" class="img-fluid rounded border">
+                        <img src="<?= base_url('uploads/profil/' . $this->session->flashdata('file_name')); ?>" class="img-fluid rounded border">
                     </div>
                 <?php endif; ?>
 
-                <!-- Form Upload -->
                 <form action="<?= site_url('upload_file/do_upload'); ?>" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label class="form-label">Pilih Gambar (JPG/PNG)</label>
